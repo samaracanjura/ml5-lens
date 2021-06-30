@@ -2,14 +2,24 @@ let video;
 let latestPrediction = null; 
 let modelIsLoading = true;
 let crownImage;
+let frecklesImage;
+let mouth;
+let freckleSwitch = false; 
 
 const FOREHEAD_POINT = 151;
 const LEFT_FOREHEAD = 104; 
 const RIGHT_FOREHEAD = 333;
+const LEFT_CHEEK = 118;
+const RIGHT_CHECK = 347;
+const NOSE_POINT = 195;
+const UPPER_LIP = 13;
+const BOTTOM_LIP = 14; 
 
 //p5 function 
 function preload(){
     crownImage = loadImage("assets/leaves_crown.png");
+    frecklesImage = loadImage("assets/blush_freckles.png")
+
 }
 
 
@@ -47,6 +57,11 @@ function draw() {
     let foreheadLocation = latestPrediction.scaledMesh[FOREHEAD_POINT];
     let leftForeheadLocation = latestPrediction.scaledMesh[LEFT_FOREHEAD];
     let rightForeheadLocation = latestPrediction.scaledMesh[RIGHT_FOREHEAD];
+
+    let noseLocation = latestPrediction.scaledMesh[NOSE_POINT]; 
+    let leftCheekLocation = latestPrediction.scaledMesh[LEFT_CHEEK];
+    let rightCheekLocation = latestPrediction.scaledMesh[RIGHT_CHECK];
+
     // line(
     //   leftForeheadLocation[0 /* x */],
     //   leftForeheadLocation[1 /* y */],
@@ -59,12 +74,23 @@ function draw() {
       rightForeheadLocation[0 /* x */],
       rightForeheadLocation[1 /* y */]
     );
+
+    let cheekWidth = dist(
+      leftCheekLocation[0 /* x */],
+      leftCheekLocation[1 /* y */],
+      rightCheekLocation[0 /* x */],
+      rightCheekLocation[0 /* y */]
+      );
     console.log(foreheadWidth);
+    console.log(cheekWidth);
     let crownWidth = foreheadWidth * 3.5;
     // crownWidth;
     // crownImage.width;
     // crownImage.height;
     let crownHeight = (crownImage.height / crownImage.width) * crownWidth;
+    let frecklesWidth = cheekWidth * 1.25; 
+    let frecklesHeight = (frecklesImage.height / frecklesImage.width) * frecklesWidth;
+
     imageMode(CENTER);
     image(
       crownImage,
@@ -73,4 +99,61 @@ function draw() {
       crownWidth /* width */,
       crownHeight /* height */
     );
-  }
+
+    // image(
+    //   frecklesImage,
+    //   noseLocation[0],
+    //   noseLocation[1],
+    //   frecklesWidth,
+    //   frecklesHeight
+      
+    // );
+
+  let upperLipLocation = latestPrediction.scaledMesh[UPPER_LIP];
+  let bottomLipLocation = latestPrediction.scaledMesh[BOTTOM_LIP];
+  
+  mouth = dist(
+    upperLipLocation[0 /* x */],
+    upperLipLocation[1 /* y */],
+    bottomLipLocation[0 /* x */],
+    bottomLipLocation[1 /* y */]
+  );
+
+    if(mouth >=10){
+      freckleSwitch = true;
+    }
+
+  if(freckleSwitch){ //if the distance is greater than 10, add freckles
+    image(
+      frecklesImage,
+      noseLocation[0],
+      noseLocation[1],
+      frecklesWidth,
+      frecklesHeight
+      
+    );
+    if(mouseIsPressed)
+    freckleSwitch = false;
+    
+    }
+
+    
+}
+// function openMouth(){
+//   let upperLipLocation = latestPrediction.scaledMesh[UPPER_LIP];
+//   let bottomLipLocation = latestPrediction.scaledMesh[BOTTOM_LIP];
+
+//   // let mouth = dist(
+//   //   upperLipLocation[0 /* x */],
+//   //   upperLipLocation[1 /* y */],
+//   //   bottomLipLocation[0 /* x */],
+//   //   bottomLipLocation[1 /* y */]
+//   // ) 
+//   line(
+//     upperLipLocation[0 /* x */],
+//     upperLipLocation[1 /* y */],
+//     bottomLipLocation[0 /* x */],
+//     bottomLipLocation[1 /* y */]
+//   ) 
+//     );
+// }
