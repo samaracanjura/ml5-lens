@@ -65,6 +65,14 @@ function draw() {
   updateKeypoints();
 
   drawKeypoints();
+ // console.log(interpolatedKeypoints[9]); // 9 = left wrist
+ 
+ let leftWristPosition = interpolatedKeypoints[9];
+ if(leftWristPosition.y < height / 2 ){ //when the wrist is at the a certain height of the screen the screen will turn blue 
+   tint(0. 153, 204 )
+ }else {
+   tint(255);
+ }
 }
 
 // A function to draw ellipses over the detected keypoints
