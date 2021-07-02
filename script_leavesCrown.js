@@ -5,10 +5,11 @@ let crownImage;
 let frecklesImage;
 let mouth;
 let freckleSwitch = false; 
+let overLay;
 
-const FOREHEAD_POINT = 151;
-const LEFT_FOREHEAD = 104; 
-const RIGHT_FOREHEAD = 333;
+const FOREHEAD_POINT = 10;
+const LEFT_FOREHEAD = 103; 
+const RIGHT_FOREHEAD = 332;
 const LEFT_CHEEK = 118;
 const RIGHT_CHECK = 347;
 const NOSE_POINT = 195;
@@ -18,7 +19,9 @@ const BOTTOM_LIP = 14;
 //p5 function 
 function preload(){
     crownImage = loadImage("assets/leaves_crown.png");
-    frecklesImage = loadImage("assets/blush_freckles.png")
+    frecklesImage = loadImage("assets/blush_freckles.png");
+    //overLay = loadImage("assets/heart_overlay.png")
+    
 
 }
 
@@ -62,12 +65,6 @@ function draw() {
     let leftCheekLocation = latestPrediction.scaledMesh[LEFT_CHEEK];
     let rightCheekLocation = latestPrediction.scaledMesh[RIGHT_CHECK];
 
-    // line(
-    //   leftForeheadLocation[0 /* x */],
-    //   leftForeheadLocation[1 /* y */],
-    //   rightForeheadLocation[0 /* x */],
-    //   rightForeheadLocation[1 /* y */]
-    // );
     let foreheadWidth = dist(
       leftForeheadLocation[0 /* x */],
       leftForeheadLocation[1 /* y */],
@@ -83,10 +80,8 @@ function draw() {
       );
     console.log(foreheadWidth);
     console.log(cheekWidth);
-    let crownWidth = foreheadWidth * 3.5;
-    // crownWidth;
-    // crownImage.width;
-    // crownImage.height;
+    let crownWidth = foreheadWidth * 3;
+    
     let crownHeight = (crownImage.height / crownImage.width) * crownWidth;
     let frecklesWidth = cheekWidth * 1.25; 
     let frecklesHeight = (frecklesImage.height / frecklesImage.width) * frecklesWidth;
@@ -100,14 +95,7 @@ function draw() {
       crownHeight /* height */
     );
 
-    // image(
-    //   frecklesImage,
-    //   noseLocation[0],
-    //   noseLocation[1],
-    //   frecklesWidth,
-    //   frecklesHeight
-      
-    // );
+   
 
   let upperLipLocation = latestPrediction.scaledMesh[UPPER_LIP];
   let bottomLipLocation = latestPrediction.scaledMesh[BOTTOM_LIP];
@@ -132,6 +120,7 @@ function draw() {
       frecklesHeight
       
     );
+  
     if(mouseIsPressed)
     freckleSwitch = false;
     
@@ -139,21 +128,4 @@ function draw() {
 
     
 }
-// function openMouth(){
-//   let upperLipLocation = latestPrediction.scaledMesh[UPPER_LIP];
-//   let bottomLipLocation = latestPrediction.scaledMesh[BOTTOM_LIP];
 
-//   // let mouth = dist(
-//   //   upperLipLocation[0 /* x */],
-//   //   upperLipLocation[1 /* y */],
-//   //   bottomLipLocation[0 /* x */],
-//   //   bottomLipLocation[1 /* y */]
-//   // ) 
-//   line(
-//     upperLipLocation[0 /* x */],
-//     upperLipLocation[1 /* y */],
-//     bottomLipLocation[0 /* x */],
-//     bottomLipLocation[1 /* y */]
-//   ) 
-//     );
-// }
